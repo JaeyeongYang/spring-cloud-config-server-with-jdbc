@@ -1,0 +1,8 @@
+### actuator healthcheck
+GET http://localhost:8888/actuator/health
+
+### application: application, profile: default
+GET http://localhost:8888/application/default/master
+
+### application: foo, profile: dev
+GET http://localhost:8888/foo/dev

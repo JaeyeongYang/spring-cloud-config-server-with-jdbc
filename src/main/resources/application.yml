@@ -1,0 +1,38 @@
+server:
+  port: 8888
+  shutdown: graceful
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    org.springframework.cloud.config.server: debug
+
+spring:
+  application:
+    name: configserver
+  profiles:
+    active: jdbc
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/configdb
+    username: configuser
+    password: configpassword
+  cloud:
+    config:
+      server:
+        jdbc:
+          enabled: true
+          fail-on-error: false
+          sql: |
+            SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
+          sql-without-profile: |
+            SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE='default' and LABEL=?
+        overrides:
+          default-config: foobar
+
+encrypt:
+  key: 4o%he9y^0#Vg^$bQuL4d@XqEzp&aiF36nf94yC0f1Y#F^i3i

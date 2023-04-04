@@ -1,0 +1,28 @@
+services:
+  config-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8888:8888'
+    depends_on:
+      - mysql
+
+  mysql:
+    image: 'mysql:8.0.32'
+    restart: always
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_DATABASE: configdb
+      MYSQL_USER: configuser
+      MYSQL_PASSWORD: configpassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - ./docker/mysql/dump:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+  vault-data:
